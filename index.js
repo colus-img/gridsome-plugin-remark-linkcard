@@ -115,7 +115,7 @@ module.exports = pluginOption => {
   
       const { url, value = url } = node
       const urlString = getUrlString(value)
-      console.log(`urlString`, urlString);
+      //console.log(`urlString`, urlString);
   
       if (!urlString) {
         return
@@ -128,7 +128,7 @@ module.exports = pluginOption => {
         //if (!html) {
         const data = await getPageData(browser, url)
         html = getHTML(data)
-        console.log(`data`, data);
+        //console.log(`data`, data);
           //await cache.set(urlString, html)
         //}
   
@@ -141,7 +141,7 @@ module.exports = pluginOption => {
     try {
       await Promise.all(targets.map(t => t()))
     } catch (e) {
-      console.log(`failed to get node for ${targets}\n`, er);
+      //console.log(`failed to get node for ${targets}\n`, er);
     } finally {
       await browser.close()
   
