@@ -28,7 +28,7 @@ plugins: [
     options: {
       plugins: [
         [
-          'gatsby-remark-link-card', {
+          'gridsome-plugin-remark-linkcard', {
             // options
           }
         ]
