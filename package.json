@@ -1,15 +1,15 @@
 {
-  "name": "gatsby-remark-link-card",
+  "name": "gridsome-plugin-remark-linkcard",
   "version": "0.0.0-development",
-  "description": "Gatsby Remark plugin to embed card about link",
+  "description": "Gridsome Remark plugin to embed card about link",
   "main": "index.js",
   "scripts": {
     "run:demo": "cd ./examples/using-remark-link-card && rm -rf .cache && npm start",
     "semantic-release": "semantic-release"
   },
   "keywords": [
-    "gatsby",
-    "gatsby-plugin",
+    "gridsome",
+    "gridsome-plugin",
     "link",
     "remark",
     "card"
@@ -25,6 +25,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JaeYeopHan/gatsby-remark-link-card.git"
+    "url": "https://github.com/colus-img/gridsome-plugin-remark-linkcard.git"
   }
 }

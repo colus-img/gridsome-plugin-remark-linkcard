@@ -1,1 +1,7 @@
 node_modules
+examples
+assets
+.vscode
+.package-lock.json
+gatsby-ssr.js
+*.code-workspace

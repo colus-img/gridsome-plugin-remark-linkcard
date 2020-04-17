@@ -1,36 +1,16 @@
-<div align="center">
-  <img src="./assets/logo.png" width="480px" />
-</div>
+Gridsome Remark plugin to embed card about link.
 
-Gatsby Remark plugin to embed card about link.
+This is a fork of [JaeYeopHan/gatsby-remark-link-card](https://github.com/JaeYeopHan/gatsby-remark-link-card) that is Gatsby plugin.
 
-> 👀 You can preview the description of the link!
+> You can preview the description of the link!
 
-[![Build Status](https://travis-ci.org/JaeYeopHan/gatsby-remark-link-card.svg?branch=master)](https://travis-ci.org/JaeYeopHan/gatsby-remark-link-card)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![npm version](https://badge.fury.io/js/gatsby-remark-link-card.svg)](https://badge.fury.io/js/gatsby-remark-link-card)
+## Install
 
-<p>
-  <a href="https://twitter.com/JbeeLjyhanll">
-    <img alt="Twitter: JbeeLjyhanll" src="https://img.shields.io/twitter/follow/JbeeLjyhanll.svg?style=social" target="_blank" />
-  </a>
-</p>
-
-## 🗂 Use Case
-
-- [gatsby-starter-bee](https://github.com/JaeYeopHan/gatsby-starter-bee)
-
-## 🚚 Install
-
-```
-$ npm install --save gatsby-remark-link-card
-# or
-$ yarn add gatsby-remark-link-card
+```sh
+$ npm i colus-img/gridsome-plugin-remark-linkcard
 ```
 
-## 🚀 How to use
-
-👉 This plugin requires `gatsby-transformer-remark`.
+## Usage
 
 ### in Markdown
 
@@ -40,26 +20,25 @@ $ yarn add gatsby-remark-link-card
 
 ### with Config
 
+Add in your `gridsome.config.js` like this:
 ```js
-// In your gatsby-config.js
 plugins: [
   {
-    resolve: `gatsby-transformer-remark`,
+    use: '@gridsome/vue-remark',
     options: {
       plugins: [
-        {
-          resolve: `gatsby-remark-link-card`,
-          options: {
-            //...
+        [
+          'gatsby-remark-link-card', {
+            // options
           }
-        }
-      ]
+        ]
+      ],
     }
   }
-];
+]
 ```
 
-## ⚙ Options
+## Options
 
 | Property       | Type                                  | Default  | Description                                                |
 | -------------- | ------------------------------------- | -------- | ---------------------------------------------------------- |
@@ -68,23 +47,16 @@ plugins: [
 | `favicon`       | `string`                              | data-uri      | Default favicon image path |
 | `error`       | `Object`                              | -      | Default config when error |
 
-## Author
+
+
+## Inspiration
+The credit for this plugin goes to JaeYeopHan. I only borrowed what they did for Gatsby. Thank you so much!
+
+[JaeYeopHan/gatsby-remark-link-card： ⛳️ Gatsby Remark plugin to embed card about link. Just write markdown syntax with your delimeter and build! puppeter gather data!](https://github.com/JaeYeopHan/gatsby-remark-link-card)
+
+### Original Author
 
 👤 **JaeYeopHan (Jbee)**
 
 - Github: [@JaeYeopHan](https://github.com/JaeYeopHan)
 - Twitter: [@JbeeLjyhanll](https://twitter.com/JbeeLjyhanll)
-
-## Inspiration
-
-[gatsby-remark-embedder](https://github.com/MichaelDeBoey/gatsby-remark-embedder)
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
-
-<div align="center">
-
-<sub><sup>Written by <a href="https://github.com/JaeYeopHan">@Jbee</a></sup></sub><small>✌</small>
-
-</div>

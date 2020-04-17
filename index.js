@@ -92,51 +92,60 @@ const isValidCondition = (node, delimiter) => {
   }
 }
 
-module.exports = async ({ cache, markdownAST }, pluginOption) => {
+//module.exports = (pluginOption) => tree => {
+module.exports = pluginOption => {
+//module.exports = async ({ cache, markdownAST }, pluginOption) => {
   const options = { ...defaultOption, ...pluginOption }
   const { delimiter } = options
-  const browser = await puppeteer.launch()
-  const targets = []
 
-  visit(markdownAST, 'paragraph', paragraphNode => {
-    if (paragraphNode.children.length !== 1) {
-      return
-    }
-
-    const [node] = paragraphNode.children
-
-    if (!isValidCondition(node, delimiter)) {
-      return
-    }
-
-    const { url, value = url } = node
-    const urlString = getUrlString(value)
-
-    if (!urlString) {
-      return
-    }
-
-    targets.push(async () => {
-      let html = await cache.get(urlString)
-
-      if (!html) {
+  return async tree => {
+    const browser = await puppeteer.launch()
+    const targets = []
+    visit(tree, 'paragraph', paragraphNode => {
+      //console.log(`found node`, paragraphNode.children[0].url);
+      if (paragraphNode.children.length !== 1) {
+        return
+      }
+  
+      const [node] = paragraphNode.children
+  
+      if (!isValidCondition(node, delimiter)) {
+        return
+      }
+  
+      const { url, value = url } = node
+      const urlString = getUrlString(value)
+      console.log(`urlString`, urlString);
+  
+      if (!urlString) {
+        return
+      }
+  
+      targets.push(async () => {
+        let html
+        //let html = await cache.get(urlString)
+  
+        //if (!html) {
         const data = await getPageData(browser, url)
         html = getHTML(data)
-        await cache.set(urlString, html)
-      }
-
-      node.type = `html`
-      node.value = html
-      node.children = undefined
+        console.log(`data`, data);
+          //await cache.set(urlString, html)
+        //}
+  
+        node.type = `html`
+        node.value = html
+        node.children = undefined
+      })
     })
-  })
-
-  try {
-    await Promise.all(targets.map(t => t()))
-  } catch (e) {
-  } finally {
-    await browser.close()
-
-    return markdownAST
+  
+    try {
+      await Promise.all(targets.map(t => t()))
+    } catch (e) {
+      console.log(`failed to get node for ${targets}\n`, er);
+    } finally {
+      await browser.close()
+  
+      //return markdownAST
+    }
   }
 }
