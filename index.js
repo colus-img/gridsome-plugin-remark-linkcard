@@ -12,18 +12,20 @@ const ErrorFormat = {
 }
 
 const getHTML = pageData => {
-  const { title, description, favicon, url, ogImage } = pageData
+  const [ title, description, url, ogImage, favicon ] = pageData
   const ogImageSrc = !ogImage || ogImage === 'undefined' ? defaultOption.image : ogImage
   const ogImageAlt =
     ogImage === 'undefined' ? 'default-image' : `${title}-image`
-  const faviconSrc = !favicon || favicon === 'undefined' ? defaultOption.favicon : favicon
+  //const faviconSrc = !favicon || favicon === 'undefined' ? defaultOption.favicon : favicon
+  const faviconSrc = favicon || defaultOption.favicon
+  const shortDescription = description.length > 256 ? description.substr(0,256)+"……" : description
 
   return `
     <div>
       <a target="_blank" rel="noopener noreferrer" href="${url}" class="preview-notion-container">
         <div class="preview-notion-wrapper">
           <div class="preview-notion-title">${title}</div>
-          <div class="preview-notion-description">${description}</div>
+          <div class="preview-notion-description">${shortDescription}</div>
           <div class="preview-notion-url">
             <img class="preview-notion-favicon" src="${faviconSrc}" alt="${title}-favicon"/>
             <div class="preview-notion-link">${url}</div>
@@ -50,19 +52,19 @@ const getPageData = async (browser, url) => {
       title,
       description,
       ogImage,
-      favicon,
+      favicon
     ] = await Promise.all([
-      page.$("meta[property='og:title']") ? 
+      await page.$("meta[property='og:title']") ? 
         page.$eval("meta[property='og:title']", el => el.content) :
         page.title(),
-      page.$("meta[property='og:description']") ? 
+      await page.$("meta[property='og:description']") ? 
         page.$eval("meta[property='og:description']", el => el.content) :
         page.$("meta[name='description']", el => el.content),
-      page.$("meta[property='og:image']") ? 
+      await page.$("meta[property='og:image']") ? 
         page.$eval("meta[property='og:image']", el => el.content) :
-        page.screenshot({path: 'img/screenShotPage.png'}) && 'img/screenShotPage.png',
-      page.$$("link[rel~='icon']") && 
-        page.$$eval("link[rel~='icon']", el => el[0].href) 
+        (page.screenshot({path: 'img/screenShotPage.png'}), 'img/screenShotPage.png'),
+      await page.$("link[rel~='icon']") ?
+        page.$eval("link[rel~='icon']", el => el.href) : false
     ])
     /*
     const title = await page.$("meta[property='og:title']") ? 
@@ -77,13 +79,13 @@ const getPageData = async (browser, url) => {
     const favicon = await page.$$("link[rel='icon']") && 
       await page.$$eval("link[rel='icon']", el => el[0].href)
     */
-    return {
+    return [
       title,
       description,
       url,
       ogImage,
-      favicon,
-    }
+      favicon
+    ]
   } catch (e) {
     //console.log('LinkCardError: ' + e)
     return ErrorFormat
@@ -159,7 +161,7 @@ module.exports = pluginOption => {
     try {
       await Promise.all(targets.map(t => t()))
     } catch (e) {
-      //console.log(`failed to get node for ${targets}\n`, er);
+      //console.log(`failed to get node for ${targets}\n`, e);
     } finally {
       await browser.close()
   
