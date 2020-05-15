@@ -40,13 +40,12 @@ plugins: [
 
 ## Options
 
-| Property       | Type                                  | Default  | Description                                                |
-| -------------- | ------------------------------------- | -------- | ---------------------------------------------------------- |
-| `delimiter`       | `string`                              | `$card`      | Title of the link to create a card |
-| `image`       | `string`                              | data-uri      | Default og image path |
-| `favicon`       | `string`                              | data-uri      | Default favicon image path |
-| `error`       | `Object`                              | -      | Default config when error |
-
+| Property    | Type     | Default  | Description                        |
+| ----------- | -------- | -------- | ---------------------------------- |
+| `delimiter` | `string` | `$card`  | Title of the link to create a card |
+| `image`     | `string` | data-uri | Default og image path              |
+| `favicon`   | `string` | data-uri | Default favicon image path         |
+| `error`     | `Object` | -        | Default config when error          |
 
 
 ## Inspiration

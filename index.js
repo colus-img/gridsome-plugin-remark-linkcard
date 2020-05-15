@@ -43,23 +43,40 @@ const getPageData = async (browser, url) => {
 
     await page.goto(url)
 
+    //await page.waitForNavigation()
+    //await page.waitForSelector('title')
+
     const [
       title,
       description,
       ogImage,
       favicon,
     ] = await Promise.all([
-      page.title(),
-      page.$eval(
-        "meta[property='og:description']",
-        el => el.content
-      ),
-      page.$eval(
-        "meta[property='og:image']",
-        el => el.content
-      ),
-      page.$eval("link[rel='shortcut icon']", el => el.href)
+      page.$("meta[property='og:title']") ? 
+        page.$eval("meta[property='og:title']", el => el.content) :
+        page.title(),
+      page.$("meta[property='og:description']") ? 
+        page.$eval("meta[property='og:description']", el => el.content) :
+        page.$("meta[name='description']", el => el.content),
+      page.$("meta[property='og:image']") ? 
+        page.$eval("meta[property='og:image']", el => el.content) :
+        page.screenshot({path: 'img/screenShotPage.png'}) && 'img/screenShotPage.png',
+      page.$$("link[rel~='icon']") && 
+        page.$$eval("link[rel~='icon']", el => el[0].href) 
     ])
+    /*
+    const title = await page.$("meta[property='og:title']") ? 
+      await page.$eval("meta[property='og:title']", el => el.content) :
+      await page.title()
+    const description = await page.$("meta[property='og:description']") ? 
+      await page.$eval("meta[property='og:description']", el => el.content) :
+      await page.$("meta[name='description']", el => el.content)
+    const ogImage = await page.$("meta[property='og:image']") ? 
+      await page.$eval("meta[property='og:image']", el => el.content) :
+      (await page.screenshot({path: 'img/screenShotPage.png'})) && 'img/screenShotPage.png'
+    const favicon = await page.$$("link[rel='icon']") && 
+      await page.$$eval("link[rel='icon']", el => el[0].href)
+    */
     return {
       title,
       description,
@@ -68,6 +85,7 @@ const getPageData = async (browser, url) => {
       favicon,
     }
   } catch (e) {
+    //console.log('LinkCardError: ' + e)
     return ErrorFormat
   }
 }

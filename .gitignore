@@ -1,7 +1,8 @@
-node_modules
-examples
-assets
-.vscode
-.package-lock.json
-gatsby-ssr.js
-*.code-workspace
+/.travis.yml
+/.vscode
+/assets
+/examples
+/gatsby-ssr.js
+/*.code-workspace
+/node_modules
+/package-lock.json
